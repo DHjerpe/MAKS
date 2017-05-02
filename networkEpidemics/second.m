@@ -18,6 +18,8 @@ infected(1,index_infected) = 1; % set values to one on generated indeces
 
 for i = 2:T % simulate over time 
    
+    infected(i,:) = infected(i-1,:); % update timestep
+    
     for j = 1:N % loop over every individual
         n = distr(j);
         if rand < 1 - exp(-p*n) % risk to get ill 
