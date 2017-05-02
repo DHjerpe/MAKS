@@ -1,6 +1,7 @@
-function links = undirectedNetwork(N,ld) 
+function [links, distr] = undirectedNetwork(N,ld)
 
 links = zeros(N,N); % store the graph in a matrix
+distr = zeros(1,N);
 
 for i = 1:N
     
@@ -15,5 +16,11 @@ for i = 1:N
     end
     
 end
+
+
+for i = 1:N
+    distr(i) = sum(links(i,:));
+end
+
 
 end
