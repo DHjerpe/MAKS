@@ -27,14 +27,14 @@ for k = 1:length(p)
 
 for i = 2:T % simulate over time 
    
-    infected(i,:) = infected(i-1,:); % update timestep
+    infected(i,:) = infected(i-1,:); % update time step
     
     for j = 1:N % loop over every individual
         n = distr(j);
         if rand < 1 - exp(-p(k)*n) % risk to get ill 
             infected(i,j) = 1;
         end
-        if rand < r 
+        if rand < r % chance to get well 
             infected(i,j) = 0; 
         end
     end

@@ -25,7 +25,7 @@ for i = 2:T % simulate over time
         if rand < 1 - exp(-p*n) % risk to get ill 
             infected(i,j) = 1;
         end
-        if rand < r 
+        if rand < r % chance to get well 
             infected(i,j) = 0; 
         end
     end
