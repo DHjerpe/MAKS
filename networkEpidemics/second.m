@@ -18,7 +18,7 @@ infected(1,index_infected) = 1; % set values to one on generated indeces
 
 for i = 2:T % simulate over time 
    
-    infected(i,:) = infected(i-1,:); % update timestep
+    infected(i,:) = infected(i-1,:); % update time step
     
     for j = 1:N % loop over every individual
         n = distr(j);
