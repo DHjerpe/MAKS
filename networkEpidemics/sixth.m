@@ -1,4 +1,4 @@
-%clear all; 
+clear all; 
 clc; close all; 
 
 T = 1000; % number of days 
@@ -15,8 +15,7 @@ infected = zeros(T,N);
 index_infected = randperm(N,init);     % generate random indeces
 infected(1,index_infected) = 1; % set values to one on generated indeces
 
-
-%[links, distr] = preferentialNetwork(4,N,4); 
+[links, distr] = preferentialNetwork(4,N,4); 
 
 firstFig = figure;
 secondFig = figure;
