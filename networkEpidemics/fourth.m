@@ -14,6 +14,7 @@ set(gcf,'color','white')
 set(gca,'FontSize',16)
 ylabel('Frequency','fontsize',16)
 xlabel('Number of links','fontsize',16)
+xlim([0 100])
 
 figure
 hist(k)
