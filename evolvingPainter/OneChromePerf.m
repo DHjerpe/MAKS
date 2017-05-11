@@ -1,4 +1,4 @@
-function [perf, e] =  OneChromePerf(e, c)
+function [perf, trajectory] =  OneChromePerf(e, c)
 
 % e - enviroment
 % c - chromosome 1x54 array of ints
@@ -11,8 +11,13 @@ grid_size = size(e);
 height = grid_size(1); 
 width = grid_size(2);
 
+
+trajectory = zeros(height,width);
+
 pos = [ceil(rand*height) ceil(rand*width)]; % random initial position
 e(pos(1),pos(2)) = 1; % paint where the robot is standing
+
+trajectory(pos(1),pos(2)) = 1;
 
 
 %perf = 0; 
@@ -40,6 +45,8 @@ dir = [1 2 3 4]; % begin pointing east
     
     e(pos(1),pos(2)) = 1; % paint where the robot is standing
     
+    trajectory(pos(1),pos(2)) = trajectory(pos(1),pos(2)) + 1; % add one extra to plot trajectory better 
+   
     curr_rule = c(1); 
     dir = changeDir(dir,curr_rule); % update direction
     
@@ -72,7 +79,7 @@ dir = [1 2 3 4]; % begin pointing east
                 rand_dir = [-1 1];
                 rightOrLeft = rand_dir(ceil(rand*2)); % to choose either -1 or 1
                 dir = circshift(cur_dir,rightOrLeft);
-        end
+        end  
     end 
 
     function newPos = moveRobot(cur_dir, cur_pos,updateTable, height, width)
