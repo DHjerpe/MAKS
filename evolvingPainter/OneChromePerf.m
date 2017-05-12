@@ -1,6 +1,8 @@
 function [perf, trajectory] =  OneChromePerf(e, c)
 
 % e - enviroment
+% if furnitures is needed for the enviroment, put value 2
+% on those coordinates 
 % c - chromosome 1x54 array of ints
 % perf - performance of chromosome
 
@@ -41,7 +43,7 @@ dir = [1 2 3 4]; % begin pointing east
 %while sum(sum(e)) < height*width
  for i = 0:width*height   
 
-    pos = moveRobot(dir, pos, updateTable, height, width); % update position
+    pos = moveRobot(e, dir, pos, updateTable, height, width); % update position
     
     e(pos(1),pos(2)) = 1; % paint where the robot is standing
     
@@ -50,15 +52,12 @@ dir = [1 2 3 4]; % begin pointing east
     curr_rule = c(1); 
     dir = changeDir(dir,curr_rule); % update direction
     
-    
-    
-    %perf = perf + 1; 
     c = circshift(c,-1);
 
-    
  end
 
- perf = sum(sum(e))/(width*height);
+ % 2 represents furniture, remove those 
+ perf = sum(sum(e))/((width*height) - sum(e(:) == 2));
  
 
     function dir = changeDir(cur_dir, rule)
@@ -82,7 +81,7 @@ dir = [1 2 3 4]; % begin pointing east
         end  
     end 
 
-    function newPos = moveRobot(cur_dir, cur_pos,updateTable, height, width)
+    function newPos = moveRobot(e, cur_dir, cur_pos,updateTable, height, width)
         
         
         % cur_dir is current direction the robot is facing
@@ -92,7 +91,8 @@ dir = [1 2 3 4]; % begin pointing east
         newPos = cur_pos + updateTable(cur_dir(1),:);
         
         if (newPos(1) > height || newPos(1) < 1 || ...
-                newPos(2) > width || newPos(2) < 1)
+                newPos(2) > width || newPos(2) < 1 ...
+                || e(newPos(1), newPos(2)) == 2) % if two, there is furniture
            newPos = cur_pos; 
         end
         
