@@ -24,7 +24,8 @@ for i = 5:T % first four already initiated
         P(j,1) = k(j)/sum(k);
     end
     
-    new_links = randsample(1:N, m, 1, P(1:i-1));
+    % RANDSAMPLE(POPULATION,K,true,W), K = weights
+    new_links = randsample(1:N, m, 1, P(1:i-1)); 
     
     links(j,new_links) = 1; 
     links(new_links,j) = 1; 
