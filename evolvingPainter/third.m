@@ -3,7 +3,7 @@ clear all; close all; clc;
 
 N_gen = 200; 
 N_chroms = 50;
-chrom_sims = 10;
+chrom_sims = 5;
 mut_rate = 0.02; 
 %chroms = ceil(rand(N_chroms,54)*4); % 50 chromosoms, each 54 long 
 
@@ -12,7 +12,8 @@ chroms = randi([1 4], 54, N_chroms);
 new_chroms = zeros(54, N_chroms); 
 e = zeros(20,40);
 fitness = zeros(N_gen, N_chroms);
-
+ D = zeros(N_gen,1);
+%D = 0; 
 h = waitbar(0, 'Simulating...');
 
 
@@ -31,6 +32,9 @@ for i = 1:N_gen
         avgPerf = avgPerf/chrom_sims;  % calculate mean value step 2
         fitness(i,j) = avgPerf;
     end
+    
+    
+    D(i) = getDiversity(N_chroms, N_gen, chroms, 54);
     
     
     
@@ -70,6 +74,44 @@ end
 
 close(h);
 
+figure
+set(gcf,'color','white')
+set(gca,'FontSize',16)
 plot(1:N_gen, mean(fitness,2)); 
+xlabel('Generation #','fontsize',16)
+ylabel('Efficiency','fontsize',16)
 
 
+figure
+set(gcf,'color','white')
+set(gca,'FontSize',16)
+plot(1:N_gen, D)
+xlabel('Generation #','fontsize',16)
+ylabel('Diversity','fontsize',16)
+
+
+function D = getDiversity(N_chroms, N_gen, chroms, L)
+
+ %   D = zeros(N_gen,1);
+    D = 0; 
+    for k = 1:54 
+        
+        for i = 1:N_chroms
+           
+            for j = 1:N_chroms
+               
+                
+                if (chroms(k,i) == chroms(k,j) && i~=j)
+                
+                    D = D + 1; 
+                    
+                end
+             
+            end
+            
+        end
+        
+    end
+    D = D./(L*N_chroms*(N_chroms-1));
+
+end
