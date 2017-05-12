@@ -4,10 +4,16 @@ clear all; close all; clc;
 N_gen = 200; 
 N_chroms = 50;
 chrom_sims = 5;
-mut_rate = 0.02; 
+mut_rate = 0.05; 
 %chroms = ceil(rand(N_chroms,54)*4); % 50 chromosoms, each 54 long 
 
 chroms = randi([1 4], 54, N_chroms);
+
+
+most_effective_chrom = zeros(1, 54);
+most_effective_traj = zeros(20,40); 
+
+bestPerf = 0; 
 
 new_chroms = zeros(54, N_chroms); 
 e = zeros(20,40);
@@ -22,15 +28,26 @@ for i = 1:N_gen
     for j = 1:N_chroms % play each chromosome
         
         avgPerf = 0;
+        trajectory = zeros(20,40);
         for k = 1:chrom_sims % play each cromosom several times
             
-           % [perf, trajectory] =  OneChromePerf(e, chroms(j,:)); % perf = efficiency [%]
+            
             [perf, trajectory] =  OneChromePerf(e, chroms(:,j)); % perf = efficiency [%]
             avgPerf = avgPerf + perf; % calculate mean value step 1
+            
+            if perf > bestPerf
+                bestPerf = perf;
+                most_effective_chrom = chroms(:,j);
+                most_effective_traj = trajectory;
+            end
+            
+            
         end
         
         avgPerf = avgPerf/chrom_sims;  % calculate mean value step 2
         fitness(i,j) = avgPerf;
+        
+        
     end
     
     
@@ -62,7 +79,7 @@ for i = 1:N_gen
     for k = 1:N_chroms
         
         if rand < mut_rate
-           mut = ceil(rand*54); % mutate random cromosome
+           mut = ceil(rand*54); % mutate random within cromosome
            new_chroms(mut,k) = ceil(rand*4); 
         end
     end
@@ -89,10 +106,15 @@ plot(1:N_gen, D)
 xlabel('Generation #','fontsize',16)
 ylabel('Diversity','fontsize',16)
 
+figure
+bestPerf
+most_effective_chrom
+imagesc(most_effective_traj)
+
 
 function D = getDiversity(N_chroms, N_gen, chroms, L)
 
- %   D = zeros(N_gen,1);
+
     D = 0; 
     for k = 1:54 
         

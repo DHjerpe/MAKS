@@ -40,8 +40,7 @@ dir = [1 2 3 4]; % begin pointing east
    
    updateTable = [1 0;0 -1;-1 0;0 1];
 
-%while sum(sum(e)) < height*width
- for i = 0:width*height   
+ for i = 1:width*height - sum(e(:) == 2)   
 
     pos = moveRobot(e, dir, pos, updateTable, height, width); % update position
     

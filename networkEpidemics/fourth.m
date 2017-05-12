@@ -26,3 +26,15 @@ set(gca, 'XScale', 'log')
 
 ylabel('Frequency','fontsize',16)
 xlabel('Number of links','fontsize',16)
+
+
+figure
+loglog(k)
+
+set(gcf,'color','white')
+set(gca,'FontSize',16)
+set(gca, 'YScale', 'log')
+set(gca, 'XScale', 'log')
+
+ylabel('Frequency','fontsize',16)
+xlabel('Number of links','fontsize',16)
